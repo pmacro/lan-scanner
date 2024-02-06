@@ -154,7 +154,11 @@
 }
 
 - (void)probeNetwork{
-    NSString *deviceIPAddress = [[[[NSString stringWithFormat:@"%@%ld", self.baseAddress, (long)self.currentHostAddress] stringByReplacingOccurrencesOfString:@".0" withString:@"."] stringByReplacingOccurrencesOfString:@".00" withString:@"."] stringByReplacingOccurrencesOfString:@".." withString:@".0."];
+    NSString *deviceIPAddress = [[[NSString stringWithFormat:@"%@%ld", self.baseAddress, (long)self.currentHostAddress] stringByReplacingOccurrencesOfString:@".0" withString:@"."] stringByReplacingOccurrencesOfString:@".00" withString:@"."];
+
+    while([deviceIPAddress containsString:@".."]) {
+      deviceIPAddress = [deviceIPAddress stringByReplacingOccurrencesOfString:@".." withString:@".0."];
+    }
     
     if(deviceIPAddress != nil) {
         //ping to check if device is active
